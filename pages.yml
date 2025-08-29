@@ -1,0 +1,62 @@
+name: BM20 Pages Deploy (8AM KST)
+
+on:
+  schedule:
+    # KST 08:00 = UTC 23:00 (전날)
+    - cron: "0 23 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]
+    paths:
+      - "scripts/generate_report.py"
+      - ".github/workflows/pages.yml"
+      - "news/**"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests matplotlib pandas
+
+      - name: Generate site (latest + archive)
+        run: |
+          python scripts/generate_report.py
+          # 캐싱·Jekyll 이슈 방지
+          echo "" > .nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 루트 전체를 배포( index.html / archive 포함 )
+          path: "."
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
