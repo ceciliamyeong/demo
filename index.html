@@ -1,11 +1,90 @@
 <!doctype html>
 <html lang="ko">
 <head>
- <meta http-equiv="refresh" content="0; url=out/2025-08-29/index.html">
-
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>BM20 Daily — <!-- {date_str} --></title>
-<h1>Demo Reports</h1>
-<ul>
-  <li><a href="out/2025-08-29/index.html">Latest Report</a></li>
-  <li><a href="archive/">Archive</a></li>
-</ul>
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,"NanumGothic","Noto Sans CJK","Malgun Gothic",Arial,sans-serif;background:#fafbfc;color:#111;margin:0}
+    .wrap{max-width:760px;margin:0 auto;padding:20px}
+    .card{background:#fff;border:1px solid #e5e9f0;border-radius:12px;padding:20px;margin-bottom:16px}
+    h1{font-size:22px;margin:0 0 8px 0;text-align:center}
+    h2{font-size:15px;margin:16px 0 8px 0;color:#1A237E}
+    .muted{color:#555;text-align:center}
+    nav{display:flex;gap:14px;justify-content:center;margin:8px 0 16px}
+    nav a{color:#1A237E;text-decoration:none}
+    nav a:hover{text-decoration:underline}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th,td{border:1px solid #e5e9f0;padding:8px}
+    th{background:#eef4ff}
+    img{max-width:100%;background:#0f1429;border:1px solid #e5e9f0;border-radius:8px}
+    .center{text-align:center}
+    .footer{font-size:12px;color:#666;text-align:center;margin-top:16px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 헤더 & 네비 (절대주소) -->
+  <div class="card">
+    <h1><a href="https://ceciliamyeong.github.io/bm/" style="text-decoration:none;color:inherit">BM20 데일리 리포트</a></h1>
+    <div class="muted"><!-- {date_str} --></div>
+    <nav>
+      <a href="https://ceciliamyeong.github.io/bm/">Home</a>
+      <a href="https://ceciliamyeong.github.io/bm/latest.html">Latest</a>
+      <a href="https://ceciliamyeong.github.io/bm/indices/performance/">Charts</a>
+      <a href="https://ceciliamyeong.github.io/bm/indices/overview/">Data</a>
+      <a href="https://ceciliamyeong.github.io/bm/indices/methodology/">About</a>
+    </nav>
+
+    <!-- KPI 테이블 (latest.json 등에서 자동 주입) -->
+    <table>
+      <tr><th>지수</th><td><!-- {level pretty} --></td></tr>
+      <tr><th>전일</th><td><!-- {prev pretty} --></td></tr>
+      <tr><th>포인트/변동률</th><td><!-- {chgpt pretty} --> / <!-- {chgp %+} --></td></tr>
+      <tr><th>수익률(1D/7D/30D/MTD/YTD)</th>
+          <td><!-- {r1d %+} --> / <!-- {r7d %+} --> / <!-- {r30d %+} --> / <!-- {rmtd %+} --> / <!-- {rytd %+} --></td></tr>
+      <tr><th>김치 프리미엄</th><td><!-- {kimchi %+ or —} --></td></tr>
+      <tr><th>펀딩비(Binance)</th><td><!-- {funding 'BTC x / ETH y' or —} --></td></tr>
+    </table>
+  </div>
+
+  <!-- 1D Performance + Top/Worst (있으면 이미지/표 표시) -->
+  <div class="card">
+    <h2>코인별 퍼포먼스 (1D, USD)</h2>
+    <!-- 퍼블리셔가 있으면 아래 img를 넣음: src="bm20_bar_latest.png" -->
+    <p class="center"><!-- <img src="bm20_bar_latest.png" alt="Performance"> --></p>
+
+    <h2>상승/하락 TOP3</h2>
+    <!-- 상승 TOP3 -->
+    <table>
+      <tr><th>상승</th><th style="text-align:right">등락률</th></tr>
+      <!-- 퍼블리셔가 perf 상위 3개를 행으로 채움. 없으면 colspan=2로 — 표시 -->
+      <!-- <tr><td>LINK</td><td style="text-align:right">+5.42%</td></tr> ... -->
+    </table>
+    <br>
+    <!-- 하락 TOP3 -->
+    <table>
+      <tr><th>하락</th><th style="text-align:right">등락률</th></tr>
+      <!-- <tr><td>BTC</td><td style="text-align:right">-1.18%</td></tr> ... -->
+    </table>
+  </div>
+
+  <!-- BTC & ETH 7일 추세 (있으면 표시) -->
+  <div class="card">
+    <h2>BTC & ETH 7일 가격 추세</h2>
+    <!-- 퍼블리셔가 있으면 아래 img를 넣음: src="bm20_trend_latest.png" -->
+    <p class="center"><!-- <img src="bm20_trend_latest.png" alt="Trend"> --></p>
+  </div>
+
+  <!-- (선택) BM20 vs BTC 비교 차트 섹션: 시리즈 존재 시 자동 삽입 -->
+  <!--
+  <div class="card">
+    <h2>BM20 vs BTC (2018-01-01 = 100, Log)</h2>
+    <p class="center"><img src="bm20_vs_btc.png" alt="BM20 vs BTC"></p>
+  </div>
+  -->
+
+  <div class="footer">© Blockmedia · Data: latest.json / series.json (+ optional perf/kimchi/funding)</div>
+</div>
+</body>
+</html>
